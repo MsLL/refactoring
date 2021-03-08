@@ -30,6 +30,20 @@ class Rental():
     def getDaysRented(self):
         return self.__daysRented
 
+    def getCharge(self):
+        result = 0
+        if (self.getMovie().getPriceCode() == Movie.REGULAR):
+            result += 2
+            if (self.getDaysRented() > 2):
+                result += (self.getDaysRented() - 2) * 1.5
+        elif (self.getMovie().getPriceCode() == Movie.NEW_RELEASE):
+            result += self.getDaysRented() * 3
+        elif (self.getMovie().getPriceCode() == Movie.CHILDRENS):
+            result += 1.5
+            if (self.getDaysRented() > 3):
+                result += (self.getDaysRented() - 3) * 1.5
+        return result
+
 
 #
 class Customer():
@@ -49,8 +63,7 @@ class Customer():
         result = ""
 
         for rental in self.__rentals:
-            thisAmount = 0
-            thisAmount = self.__amountFor(rental)
+            thisAmount = rental.getCharge()
 
             frequentRenterPoints += 1
             if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE and rental.getDaysRented() > 1):
@@ -62,20 +75,6 @@ class Customer():
             totalAmount += thisAmount
         result += 'Amount owed is ' + str(totalAmount) + '\n'
         result += 'You earned ' + str(frequentRenterPoints) + ' frequent renter points'
-        return result
-
-    def __amountFor(self, rental):
-        result = 0
-        if (rental.getMovie().getPriceCode() == Movie.REGULAR):
-            result += 2
-            if (rental.getDaysRented() > 2):
-                result += (rental.getDaysRented() - 2) * 1.5
-        elif (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE):
-            result += rental.getDaysRented() * 3
-        elif (rental.getMovie().getPriceCode() == Movie.CHILDRENS):
-            result += 1.5
-            if (rental.getDaysRented() > 3):
-                result += (rental.getDaysRented() - 3) * 1.5
         return result
 
 
