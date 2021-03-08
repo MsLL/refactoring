@@ -16,6 +16,21 @@ class Movie():
 
     def setPriceCode(self, priceCode):
         self.__priceCode = priceCode
+        
+    def getCharge(self,daysRented):
+        result = 0
+        if (self.getPriceCode() == Movie.REGULAR):
+            result += 2
+            if ( daysRented> 2):
+                result += (daysRented - 2) * 1.5
+        elif (self.getPriceCode() == Movie.NEW_RELEASE):
+            result += daysRented * 3
+        elif (self.getPriceCode() == Movie.CHILDRENS):
+            result += 1.5
+            if (daysRented > 3):
+                result += (daysRented - 3) * 1.5
+        return result
+        
 
 
 # class Rental represents a customer renting a movie
@@ -31,18 +46,7 @@ class Rental():
         return self.__daysRented
 
     def getCharge(self):
-        result = 0
-        if (self.getMovie().getPriceCode() == Movie.REGULAR):
-            result += 2
-            if (self.getDaysRented() > 2):
-                result += (self.getDaysRented() - 2) * 1.5
-        elif (self.getMovie().getPriceCode() == Movie.NEW_RELEASE):
-            result += self.getDaysRented() * 3
-        elif (self.getMovie().getPriceCode() == Movie.CHILDRENS):
-            result += 1.5
-            if (self.getDaysRented() > 3):
-                result += (self.getDaysRented() - 3) * 1.5
-        return result
+        return self.__movie.getCharge(self.getDaysRented())
 
     def getFrequentRenterPoints(self):
         frequentRenterPoints = 1
