@@ -6,7 +6,7 @@ class Movie():
 
     def __init__(self, title, priceCode):
         self.__title = title
-        self.__priceCode = priceCode
+        self.setPriceCode(priceCode)
 
     def getTitle(self):
         return self.__title
