@@ -50,16 +50,7 @@ class Customer():
 
         for rental in self.__rentals:
             thisAmount = 0
-            if (rental.getMovie().getPriceCode() == Movie.REGULAR):
-                thisAmount += 2
-                if (rental.getDaysRented() > 2):
-                    thisAmount += (rental.getDaysRented() - 2) * 1.5
-            elif (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE):
-                thisAmount += rental.getDaysRented() * 3
-            elif (rental.getMovie().getPriceCode() == Movie.CHILDRENS):
-                thisAmount += 1.5
-                if (rental.getDaysRented() > 3):
-                    thisAmount += (rental.getDaysRented() - 3) * 1.5
+            thisAmount = self.__amountFor(rental)
 
             frequentRenterPoints += 1
             if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE and rental.getDaysRented() > 1):
@@ -73,13 +64,27 @@ class Customer():
         result += 'You earned ' + str(frequentRenterPoints) + ' frequent renter points'
         return result
 
+    def __amountFor(self, rental):
+        result = 0
+        if (rental.getMovie().getPriceCode() == Movie.REGULAR):
+            result += 2
+            if (rental.getDaysRented() > 2):
+                result += (rental.getDaysRented() - 2) * 1.5
+        elif (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE):
+            result += rental.getDaysRented() * 3
+        elif (rental.getMovie().getPriceCode() == Movie.CHILDRENS):
+            result += 1.5
+            if (rental.getDaysRented() > 3):
+                result += (rental.getDaysRented() - 3) * 1.5
+        return result
+
 
 customer = Customer('tli2')
 customer.addRental(Rental(Movie('李欢迎', Movie.NEW_RELEASE), 5))
 customer.addRental(Rental(Movie('三国演艺', Movie.REGULAR), 10))
 customer.addRental(Rental(Movie('娜扎', Movie.CHILDRENS), 12))
 print(customer.statement())
-#output：
+# output：
 # 李欢迎	15
 # 三国演艺	14.0
 # 娜扎	15.0
