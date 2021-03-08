@@ -64,20 +64,28 @@ class Customer():
         return self.__name
 
     def statement(self):
-        totalAmount = 0
-        frequentRenterPoints = 0
         result = ""
 
         for rental in self.__rentals:
-            frequentRenterPoints += rental.getFrequentRenterPoints()
-
             result += "{title}\t{cost}\n".format(
                 title=rental.getMovie().getTitle(),
                 cost=rental.getCharge())
-            totalAmount += rental.getCharge()
-        result += 'Amount owed is ' + str(totalAmount) + '\n'
-        result += 'You earned ' + str(frequentRenterPoints) + ' frequent renter points'
+        result += 'Amount owed is ' + str(self.getTotalCost()) + '\n'
+        result += 'You earned ' + str(self.getTotalFrequentRenterPoints()) + ' frequent renter points'
         return result
+
+    def getTotalCost(self):
+        cost = 0
+        for rental in self.__rentals:
+            costThis = rental.getCharge()
+            cost += costThis
+        return cost
+
+    def getTotalFrequentRenterPoints(self):
+        frequentRenterPoints = 0
+        for rental in self.__rentals:
+            frequentRenterPoints += rental.getFrequentRenterPoints()
+        return frequentRenterPoints
 
 
 customer = Customer('tli2')
