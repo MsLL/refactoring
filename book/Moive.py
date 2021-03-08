@@ -1,3 +1,24 @@
+#
+class PriceState():
+    def getPriceCode(self):
+        pass
+
+
+class ChildrenPrice(PriceState):
+    def getPriceCode(self):
+        return Movie.CHILDRENS
+
+
+class NewReleasePrice(PriceState):
+    def getPriceCode(self):
+        return Movie.NEW_RELEASE
+
+
+class RegularPrice(PriceState):
+    def getPriceCode(self):
+        return Movie.REGULAR
+
+
 # class Movie is just a simple data class
 class Movie():
     CHILDRENS = 2
@@ -6,16 +27,22 @@ class Movie():
 
     def __init__(self, title, priceCode):
         self.__title = title
+        self.__price = None
         self.setPriceCode(priceCode)
 
     def getTitle(self):
         return self.__title
 
     def getPriceCode(self):
-        return self.__priceCode
+        return self.__price.getPriceCode()
 
     def setPriceCode(self, priceCode):
-        self.__priceCode = priceCode
+        if (priceCode == self.REGULAR):
+            self.__price = RegularPrice()
+        elif (priceCode == self.CHILDRENS):
+            self.__price = ChildrenPrice()
+        elif (priceCode == self.NEW_RELEASE):
+            self.__price = NewReleasePrice()
 
     def getCharge(self, daysRented):
         result = 0
