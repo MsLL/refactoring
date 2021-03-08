@@ -44,6 +44,12 @@ class Rental():
                 result += (self.getDaysRented() - 3) * 1.5
         return result
 
+    def getFrequentRenterPoints(self):
+        frequentRenterPoints = 1
+        if (self.getMovie().getPriceCode() == Movie.NEW_RELEASE and self.getDaysRented() > 1):
+            frequentRenterPoints += 1
+        return frequentRenterPoints
+
 
 #
 class Customer():
@@ -63,9 +69,7 @@ class Customer():
         result = ""
 
         for rental in self.__rentals:
-            frequentRenterPoints += 1
-            if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE and rental.getDaysRented() > 1):
-                frequentRenterPoints += 1
+            frequentRenterPoints += rental.getFrequentRenterPoints()
 
             result += "{title}\t{cost}\n".format(
                 title=rental.getMovie().getTitle(),
