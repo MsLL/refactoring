@@ -63,16 +63,14 @@ class Customer():
         result = ""
 
         for rental in self.__rentals:
-            thisAmount = rental.getCharge()
-
             frequentRenterPoints += 1
             if (rental.getMovie().getPriceCode() == Movie.NEW_RELEASE and rental.getDaysRented() > 1):
                 frequentRenterPoints += 1
 
             result += "{title}\t{cost}\n".format(
                 title=rental.getMovie().getTitle(),
-                cost=thisAmount)
-            totalAmount += thisAmount
+                cost=rental.getCharge())
+            totalAmount += rental.getCharge()
         result += 'Amount owed is ' + str(totalAmount) + '\n'
         result += 'You earned ' + str(frequentRenterPoints) + ' frequent renter points'
         return result
