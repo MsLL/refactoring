@@ -3,32 +3,38 @@ class PriceState():
     def getPriceCode(self):
         pass
     def getCharge(self, daysRented):
-        result = 0
-        if (self.getPriceCode() == Movie.REGULAR):
-            result += 2
-            if (daysRented > 2):
-                result += (daysRented - 2) * 1.5
-        elif (self.getPriceCode() == Movie.NEW_RELEASE):
-            result += daysRented * 3
-        elif (self.getPriceCode() == Movie.CHILDRENS):
-            result += 1.5
-            if (daysRented > 3):
-                result += (daysRented - 3) * 1.5
-        return result
+        pass
 
 class ChildrenPrice(PriceState):
     def getPriceCode(self):
         return Movie.CHILDRENS
+
+    def getCharge(self, daysRented):
+        result = 1.5
+        if (daysRented > 3):
+            result += (daysRented - 3) * 1.5
+        return result
+
 
 
 class NewReleasePrice(PriceState):
     def getPriceCode(self):
         return Movie.NEW_RELEASE
 
+    def getCharge(self, daysRented):
+        return daysRented * 3
+
+
 
 class RegularPrice(PriceState):
     def getPriceCode(self):
         return Movie.REGULAR
+
+    def getCharge(self, daysRented):
+        result = 2
+        if (daysRented > 2):
+            result += (daysRented - 2) * 1.5
+        return result
 
 # class Movie is just a simple data class
 class Movie():
