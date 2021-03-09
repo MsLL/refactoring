@@ -2,7 +2,19 @@
 class PriceState():
     def getPriceCode(self):
         pass
-
+    def getCharge(self, daysRented):
+        result = 0
+        if (self.getPriceCode() == Movie.REGULAR):
+            result += 2
+            if (daysRented > 2):
+                result += (daysRented - 2) * 1.5
+        elif (self.getPriceCode() == Movie.NEW_RELEASE):
+            result += daysRented * 3
+        elif (self.getPriceCode() == Movie.CHILDRENS):
+            result += 1.5
+            if (daysRented > 3):
+                result += (daysRented - 3) * 1.5
+        return result
 
 class ChildrenPrice(PriceState):
     def getPriceCode(self):
@@ -17,7 +29,6 @@ class NewReleasePrice(PriceState):
 class RegularPrice(PriceState):
     def getPriceCode(self):
         return Movie.REGULAR
-
 
 # class Movie is just a simple data class
 class Movie():
@@ -45,18 +56,7 @@ class Movie():
             self.__price = NewReleasePrice()
 
     def getCharge(self, daysRented):
-        result = 0
-        if (self.getPriceCode() == Movie.REGULAR):
-            result += 2
-            if (daysRented > 2):
-                result += (daysRented - 2) * 1.5
-        elif (self.getPriceCode() == Movie.NEW_RELEASE):
-            result += daysRented * 3
-        elif (self.getPriceCode() == Movie.CHILDRENS):
-            result += 1.5
-            if (daysRented > 3):
-                result += (daysRented - 3) * 1.5
-        return result
+        return self.__price.getCharge(daysRented)
 
     def getFrequentRenterPoints(self, daysRented):
         frequentRenterPoints = 1
