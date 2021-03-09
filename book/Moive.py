@@ -2,8 +2,14 @@
 class PriceState():
     def getPriceCode(self):
         pass
+
     def getCharge(self, daysRented):
         pass
+
+    # 作为default实现
+    def getFrequentRenterPoints(self, daysRented):
+        return 1
+
 
 class ChildrenPrice(PriceState):
     def getPriceCode(self):
@@ -16,7 +22,6 @@ class ChildrenPrice(PriceState):
         return result
 
 
-
 class NewReleasePrice(PriceState):
     def getPriceCode(self):
         return Movie.NEW_RELEASE
@@ -24,6 +29,10 @@ class NewReleasePrice(PriceState):
     def getCharge(self, daysRented):
         return daysRented * 3
 
+    def getFrequentRenterPoints(self, daysRented):
+        if (daysRented > 1):
+            return 2
+        return 1
 
 
 class RegularPrice(PriceState):
@@ -35,6 +44,7 @@ class RegularPrice(PriceState):
         if (daysRented > 2):
             result += (daysRented - 2) * 1.5
         return result
+
 
 # class Movie is just a simple data class
 class Movie():
@@ -65,10 +75,7 @@ class Movie():
         return self.__price.getCharge(daysRented)
 
     def getFrequentRenterPoints(self, daysRented):
-        frequentRenterPoints = 1
-        if (self.getPriceCode() == Movie.NEW_RELEASE and daysRented > 1):
-            frequentRenterPoints += 1
-        return frequentRenterPoints
+        return self.__price.getFrequentRenterPoints(daysRented)
 
 
 # class Rental represents a customer renting a movie
